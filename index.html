@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love Sonali - Romantic Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 3.2rem;
+            color: #ff6584;
+            margin-bottom: 15px;
+            text-shadow: 0 0 12px rgba(255, 101, 132, 0.6);
+        }
+
+        /* Slider Wrapper */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            background: #000;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Navigation Buttons */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 50%;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        .nav-btn:hover {
+            background: #ff6584;
+        }
+
+        .prev { left: 15px; }
+        .next { right: 15px; }
+
+        /* Shayari Box Section */
+        .shayari-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 101, 132, 0.1);
+            border-left: 4px solid #ff6584;
+            border-radius: 0 15px 15px 0;
+            min-height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shayari-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ffccd5;
+            font-style: italic;
+            white-space: pre-line;
+        }
+
+        /* Dots Indicators */
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: #ff6584;
+            width: 22px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .slider-container {
+                height: 320px;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .shayari-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Forever Sonali ❤️</h1>
+        
+        <!-- Slideshow Area -->
+        <div class="slider-container" id="slider">
+            <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+            <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+        </div>
+
+        <!-- Dots Pagination -->
+        <div class="dots-container" id="dotsContainer"></div>
+
+        <!-- Dedicated Shayari Section (Sonali ke liye) -->
+        <div class="shayari-box">
+            <p class="shayari-text" id="shayariDisplay">Sonali ke liye romantic lines load ho rahi hain...</p>
+        </div>
+    </div>
+
+    <script>
+        // Sonali ki 14 photos ke liye Dedicated Romantic Shayari List
+        const shayariList = [
+            // Photo 1 (Pehli photo ke liye lambi aur special line)
+            "✨ Meri har ek adaa par fida rehne wali, Sonali tum sirf meri jaan nahi, meri puri duniya ho.\nJab se tum meri zindagi mein aayi ho, har pal bas ek khoobsurat khwab jaise lagta hai... Teri ek muskaan par mere saare gham fida hain! 💖",
+            
+            // Photo 2
+            "🌹 Sonali, teri aankhon mein bas gaya hai dil mera is tarah,\nKi ab koi aur chehra dekhne ki khwahish hi nahi rahi.",
+
+            // Photo 3
+            "💫 Waqt bhi thahar jata hai jab tum mere saath hoti ho Sonali,\nYe dhadkanein bas tumhara hi naam japne lagti hain.",
+
+            // Photo 4
+            "🌙 Chaand se bhi zyada haseen lagti ho tum Sonali,\nJab tumhri ek pyaari si muskaan mere din ko roshan kar deti hai.",
+
+            // Photo 5
+            "❤️ Sonali, zindagi ke is safar mein tumhara haath jab se mila hai,\nHar ek raasta phoolon se mehakkne laga hai.",
+
+            // Photo 6
+            "✨ Mere dil ki baseline ho tum Sonali,\nJiske bina meri har dua incomplete lagti hai.",
+
+            // Photo 7
+            "💖 Ek tera hi naam hai jise sunkar dil ko sukoon milta hai Sonali,\nTum meri aisi mohabbat ho jo kabhi kam nahi ho sakti.",
+
+            // Photo 8
+            "🌸 Sonali, tum mere dil ki wo dhadkan ho,\nJiske bina zindagi adhoori si lagti hai.",
+
+            // Photo 9
+            "👑 Meri rani ho tum Sonali, meri har khushi tumse shuru hoti hai,\nAur har khwahish tum par hi khatam hoti hai.",
+
+            // Photo 10
+            "🕊️ Teri har baat mere dil ko chhuti hai Sonali,\nTum mere liye khuda ka diya hua sabse pyaara tohfa ho.",
+
+            // Photo 11
+            "🔥 Log kehte hain ki mohabbat ek baar hoti hai,\nLekin Sonali, mujhe toh tumse har din baar-baar hoti hai.",
+
+            // Photo 12
+            "⭐ Tum paas raho ya door, Sonali tumhari yaadein humesha mere paas rehti hain,\nHar pal bas tumhara hi khayal rehta hai.",
+
+            // Photo 13
+            "💌 Sonali, meri khushiyo ki wajah tum ho,\nMeri zindagi ki asli khoobsurati tumse hi hai.",
+
+            // Photo 14
+            "Forever Yours Sonali! ❤️\nTumhara saath har janam mein chahiye, tum hi meri shuruat ho aur tum hi meri manzil."
+        ];
+
+        // Automatic Sonali1.jpg se Sonali14.jpg ka array setup
+        const slideData = Array.from({ length: 14 }, (_, i) => ({
+            image: `./Sonali${i + 1}.jpg`, // GitHub repository me 'Sonali1.jpg', 'Sonali2.jpg'... format
+            shayari: shayariList[i]
+        }));
+
+        let currentIndex = 0;
+        const slider = document.getElementById('slider');
+        const shayariDisplay = document.getElementById('shayariDisplay');
+        const dotsContainer = document.getElementById('dotsContainer');
+
+        function initSlider() {
+            slideData.forEach((item, index) => {
+                // Slide Create
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === 0 ? 'active' : ''}`;
+                slide.innerHTML = `<img src="${item.image}" alt="Sonali Photo ${index + 1}">`;
+                slider.insertBefore(slide, slider.querySelector('.prev'));
+
+                // Dots Create
+                const dot = document.createElement('div');
+                dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            updateShayari();
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+
+            updateShayari();
+        }
+
+        function updateShayari() {
+            shayariDisplay.textContent = slideData[currentIndex].shayari;
+        }
+
+        function changeSlide(direction) {
+            currentIndex += direction;
+            if (currentIndex >= slideData.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = slideData.length - 1;
+            }
+            showSlide(currentIndex);
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            showSlide(currentIndex);
+        }
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+
+        window.onload = initSlider;
+    </script>
+</body>
+</html>
